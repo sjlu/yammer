@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # requires the vagrant-hostsupdater plugin
   config.hostsupdater.remove_on_suspend = true
   config.vm.network :private_network, ip: "10.10.1.2"
-  config.vm.hostname = "yammer.vagrant"
+  config.vm.hostname = "localhost.polar-basin-6883.herokuapp.com"
 
   # sync the web folder
   config.vm.synced_folder "www/", "/var/www"

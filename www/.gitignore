@@ -1,6 +1,7 @@
 node_modules
 bower_components
 application/cache/*
+composer_vendor
 
 .DS_Store
 .DS_Store?

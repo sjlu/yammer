@@ -192,6 +192,11 @@ if (defined('ENVIRONMENT'))
 	}
 
 /*
+ * Load Composer Autoload
+ */
+require 'composer_vendor/autoload.php';
+
+/*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
