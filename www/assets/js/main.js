@@ -8,6 +8,17 @@ requirejs.config({
     'backbone': '../../bower_components/backbone/backbone',
     'hbs': '../../bower_components/require-handlebars-plugin/hbs',
     'jquery': '../../bower_components/jquery/dist/jquery',
-    'underscore': '../../bower_components/lodash/dist/lodash.underscore'
+    'underscore': '../../bower_components/lodash/dist/lodash.underscore',
+    'md5': '../../bower_components/blueimp-md5/js/md5'
+  },
+  shim: {
+    'backbone': {
+      deps: ['jquery', 'underscore']
+    }
+  },
+  hbs: {
+    helperPathCallback: function(name) {
+      return 'helpers/handlebars/' + name;
+    }
   }
 });

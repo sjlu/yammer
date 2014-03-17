@@ -56,6 +56,9 @@ define([
         var val = this.$('textarea').val();
         this.$('textarea').val('');
 
+        // replace new lines with line breaks
+        val = val.replace(/\n/g, "<br />");
+
         var postModel = new PostModel();
         this.postsCollection.add(postModel, {at: 0});
 

@@ -13,6 +13,18 @@ define([
 
   return PostsCollection;
 
+});;define([
+  'hbs/handlebars',
+  'md5'
+], function(
+  Handlebars,
+  md5
+) {
+
+  Handlebars.registerHelper('gravatar', function(email, size) {
+    return 'https://s.gravatar.com/avatar/' + md5(email) + '?s=' + size;
+  });
+
 });;/**
  * RequireJS configuration of external modules.
  * and the root URL of our application MVC directory.
@@ -23,7 +35,18 @@ requirejs.config({
     'backbone': '../../bower_components/backbone/backbone',
     'hbs': '../../bower_components/require-handlebars-plugin/hbs',
     'jquery': '../../bower_components/jquery/dist/jquery',
-    'underscore': '../../bower_components/lodash/dist/lodash.underscore'
+    'underscore': '../../bower_components/lodash/dist/lodash.underscore',
+    'md5': '../../bower_components/blueimp-md5/js/md5'
+  },
+  shim: {
+    'backbone': {
+      deps: ['jquery', 'underscore']
+    }
+  },
+  hbs: {
+    helperPathCallback: function(name) {
+      return 'helpers/handlebars/' + name;
+    }
   }
 });;define([
   'backbone'
@@ -140,6 +163,9 @@ requirejs.config({
         // get val and reset.
         var val = this.$('textarea').val();
         this.$('textarea').val('');
+
+        // replace new lines with line breaks
+        val = val.replace(/\n/g, "<br />");
 
         var postModel = new PostModel();
         this.postsCollection.add(postModel, {at: 0});
