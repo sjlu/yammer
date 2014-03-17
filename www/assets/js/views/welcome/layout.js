@@ -75,10 +75,10 @@ define([
         val = val.replace(/\n/g, "<br />");
 
         var postModel = new PostModel();
-        this.postsCollection.add(postModel, {at: 0});
-
         postModel.set('text', val);
         postModel.save();
+
+        this.postsCollection.add(postModel, {at: 0});
 
         e.preventDefault();
       }
