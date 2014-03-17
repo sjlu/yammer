@@ -1,34 +1,19 @@
-# CodeIgniter Sunrise
+## Yammer
 
-CodeIgniter Sunrise is inspired by [CodeIgniter Bootstrap](https://github.com/sjlu/CodeIgniter-Bootstrap) and [Sunrise](https://github.com/sjlu/sunrise/). It has the intention of providing you a bootstrapped framework for you to work in without any setup. It includes a LESS compiler and JS concatenator run by [Grunt](Gruntfile.js) and serveral libraries installed through [Bower](bower.json).
+This is a simple clone of Yammer, a tool where you can post status updates. It is very similar
+to Twitter. This is built using PHP, CodeIgniter, Backbone and LESS.
 
-## Install
+### Instructions
 
-* Get a copy of the repo and extract it.
+* First clone the repository.
 
-        wget https://github.com/sjlu/CodeIgniter-Sunrise/archive/master.zip -O sunrise.zip
-        unzip sunrise.zip
-        mv CodeIgniter-Sunrise-master sunrise
-   
-* Install the following tools.
+        git clone https://github.com/sjlu/yammer.git
 
-        npm install -g grunt
-        npm install -g bower
+* Then install dependencies.
 
-* Run the build script.
+        php composer.phar install
+        bower install
 
-        ./build.sh
-
-You can also use this script to instantiate a new project.
-
-    curl https://raw.github.com/sjlu/CodeIgniter-Sunrise/master/install.sh | bash -s <project_name>
-
-## Usage
-
-To compile LESS and JS, all you need to do is run Grunt in the root directory.
-
-    grunt
-
-## License
+### License
 
 MIT.
