@@ -32,15 +32,19 @@ class Posts extends REST_Controller {
     $input = $this->post();
     $text = $input['text'];
 
-    // storing the post
-    $post = $this->post_model->create($user->id, $text);
-
-    // extracting all tags and storing
-    // them in a many to many relationship
+    // extracting all tags from the post.
     preg_match_all("/\S*#(?:\[[^\]]+\]|\S+)/", $text, $tags);
+    $tags_from_db = array();
     foreach ($tags[0] as $tag) {
-      $tag = trim(strtolower($tag));
+      $tag = str_replace("#", "", trim(strtolower($tag)));
       $tag = $this->tag_model->get_or_create($tag);
+      $tags_from_db[] = $tag;
+    }
+
+    // storing the post & approproiate tags
+    $post = $this->post_model->create($user->id, $text);
+    // creating relationship
+    foreach ($tags_from_db as $tag) {
       $this->post_model->add_tag($post->id, $tag->id);
     }
 
@@ -48,10 +52,24 @@ class Posts extends REST_Controller {
   }
 
   function index_get() {
+    $tag = $this->get('tag');
 
-    $posts = $this->post_model->get_all();
+    // If we got a tag from the GET variables, then
+    // we shall do a lookup by the tag. Obviously
+    // this parameter is optional.
+    if (!empty($tag)) {
+      if (!$tag = $this->tag_model->get($tag)) {
+        return $this->response(); // got nothing
+      }
+
+      $posts = $this->post_model->get_all_by_tag($tag->id);
+    // If we receive no optional parameters, then we will
+    // just grab an unfiltered list.
+    } else {
+      $posts = $this->post_model->get_all();
+    }
+
     return $this->response($posts);
-
   }
 
 }

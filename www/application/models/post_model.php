@@ -66,4 +66,48 @@ class Post_model extends CI_Model {
     return $query->result();
   }
 
+  function get_by_ids($posts_ids) {
+    $this->db->select(array(
+        'posts.id',
+        'users.email',
+        'posts.text',
+        'posts.timestamp'
+      ))
+      ->join('users', 'posts.user_id = users.id')
+      ->order_by("posts.id", "desc")
+      ->where_in('posts.id', $posts_ids);
+
+    $query = $this->db->get('posts');
+    if (!$query->num_rows()) {
+      return false;
+    }
+
+    return $query->result();
+  }
+
+  function get_all_by_tag($tag_id) {
+    /**
+     * First get all posts that are referenced
+     * by the given tag Id.
+     */
+    $this->db->where('tag_id', $tag_id)
+      ->select('post_id');
+
+    $query = $this->db->get('tags_posts');
+    if (!$query->num_rows()) {
+      return false;
+    }
+
+    $posts_ids = array();
+    foreach ($query->result() as $post) {
+      $posts_ids[] = $post->post_id;
+    }
+
+    /**
+     * Then get all the posts by the IDs
+     * we have retrieved.
+     */
+    return $this->get_by_ids($posts_ids);
+  }
+
 }
