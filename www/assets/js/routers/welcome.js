@@ -11,19 +11,27 @@ define([
   var WelcomeRouter = Backbone.Router.extend({
 
     routes: {
-      '': 'home'
+      '': 'home',
+      '(:tag)': 'tag'
     },
 
     initialize: function() {
       // We are just passing the view over
       // for it to completely control the body.
-      this.welcomeView = new WelcomeLayoutView({
+      this.welcomeLayoutView = new WelcomeLayoutView({
         el: $('.container')
       });
+
+      // Render the view to the page.
+      this.welcomeLayoutView.render();
     },
 
     home: function() {
-      this.welcomeView.render();
+      this.welcomeLayoutView.setTag();
+    },
+
+    tag: function(tag) {
+      this.welcomeLayoutView.setTag(tag);
     }
 
   });

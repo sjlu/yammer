@@ -20,7 +20,12 @@ define([
 ) {
 
   Handlebars.registerHelper('formatText', function(text) {
+    // find links
     text = text.replace(/(https?:\/\/[^\s]+)/g, "<a href='$1'>$1</a>");
+
+    // find hashtags
+    text = text.replace(/#(\w+)/g, "<a href='/#$1'>#$1</a>");
+
     return text;
   });
 
@@ -109,19 +114,27 @@ requirejs.config({
   var WelcomeRouter = Backbone.Router.extend({
 
     routes: {
-      '': 'home'
+      '': 'home',
+      '(:tag)': 'tag'
     },
 
     initialize: function() {
       // We are just passing the view over
       // for it to completely control the body.
-      this.welcomeView = new WelcomeLayoutView({
+      this.welcomeLayoutView = new WelcomeLayoutView({
         el: $('.container')
       });
+
+      // Render the view to the page.
+      this.welcomeLayoutView.render();
     },
 
     home: function() {
-      this.welcomeView.render();
+      this.welcomeLayoutView.setTag();
+    },
+
+    tag: function(tag) {
+      this.welcomeLayoutView.setTag(tag);
     }
 
   });
@@ -166,6 +179,21 @@ requirejs.config({
 
       // Init
       this.postsCollection.fetch();
+    },
+
+    setTag: function(tag) {
+      if (tag) {
+        this.postsCollection.fetch({
+          data: {
+            'tag': tag
+          }
+        });
+
+        this.$('textarea, .instructions-to-submit').hide();
+      } else {
+        this.postsCollection.fetch();
+        this.$('textarea, .instructions-to-submit').show();
+      }
     },
 
     render: function() {

@@ -36,6 +36,21 @@ define([
       this.postsCollection.fetch();
     },
 
+    setTag: function(tag) {
+      if (tag) {
+        this.postsCollection.fetch({
+          data: {
+            'tag': tag
+          }
+        });
+
+        this.$('textarea, .instructions-to-submit').hide();
+      } else {
+        this.postsCollection.fetch();
+        this.$('textarea, .instructions-to-submit').show();
+      }
+    },
+
     render: function() {
       // render the template onto the page.
       this.$el.html(this.welcomeLayoutTemplate());
