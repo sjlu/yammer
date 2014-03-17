@@ -11,4 +11,9 @@ class Posts extends REST_Controller {
     return $this->user_model->get($email);
   }
 
+  function index_post() {
+    $input = $this->post();
+    $text = $input['text'];
+  }
+
 }
