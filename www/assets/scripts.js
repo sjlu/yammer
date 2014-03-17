@@ -25,6 +25,18 @@ define([
     return 'https://s.gravatar.com/avatar/' + md5(email) + '?s=' + size;
   });
 
+});;define([
+  'hbs/handlebars',
+  'moment'
+], function(
+  Handlebars,
+  moment
+) {
+
+  Handlebars.registerHelper('timeAgo', function(time) {
+    return moment(time + "+0000").fromNow();
+  });
+
 });;/**
  * RequireJS configuration of external modules.
  * and the root URL of our application MVC directory.
@@ -36,7 +48,8 @@ requirejs.config({
     'hbs': '../../bower_components/require-handlebars-plugin/hbs',
     'jquery': '../../bower_components/jquery/dist/jquery',
     'underscore': '../../bower_components/lodash/dist/lodash.underscore',
-    'md5': '../../bower_components/blueimp-md5/js/md5'
+    'md5': '../../bower_components/blueimp-md5/js/md5',
+    'moment': '../../bower_components/moment/moment'
   },
   shim: {
     'backbone': {

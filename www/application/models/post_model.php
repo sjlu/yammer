@@ -5,6 +5,7 @@ class Post_model extends CI_Model {
   function __construct() {
     parent::__construct();
     $this->load->database();
+    $this->db->query("SET time_zone='+0:00'");
   }
 
   function create($user_id, $text) {

@@ -9,7 +9,8 @@ requirejs.config({
     'hbs': '../../bower_components/require-handlebars-plugin/hbs',
     'jquery': '../../bower_components/jquery/dist/jquery',
     'underscore': '../../bower_components/lodash/dist/lodash.underscore',
-    'md5': '../../bower_components/blueimp-md5/js/md5'
+    'md5': '../../bower_components/blueimp-md5/js/md5',
+    'moment': '../../bower_components/moment/moment'
   },
   shim: {
     'backbone': {
