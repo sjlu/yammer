@@ -21,8 +21,9 @@ class User_model extends CI_Model {
 
     $query = $this->db->get();
 
-    if (!$query->num_rows())
+    if (!$query->num_rows()) {
       return false;
+    }
 
     return $query->row();
   }
