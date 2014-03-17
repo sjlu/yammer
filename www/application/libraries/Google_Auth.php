@@ -65,27 +65,38 @@ class Google_Auth {
     }
 
     // set the access token to the session
-    $this->set_session($access_token);
-
-    return $access_token;
+    return $this->set_session($access_token);
   }
 
   // Lets store the session in a cookie.
   function set_session($access_token) {
+    try {
+      $this->client->setAccessToken($access_token);
+    } catch (Exception $e) {
+      $this->ci->session->unset_userdata('google_access_token');
+      return FALSE;
+    }
+
     $this->ci->session->set_userdata('google_access_token', $access_token);
-    $this->client->setAccessToken($access_token);
+    return TRUE;
   }
 
   // Check to see if we have a session
   function get_session() {
     $access_token = $this->ci->session->userdata('google_access_token');
     if (!empty($access_token)) {
-      $this->set_session($access_token);
+      if (!$this->set_session($access_token)) {
+        return FALSE;
+      }
     }
 
     // Get the user email
-    $oauth2 = new Google_Service_Oauth2($this->client);
-    $email = $oauth2->userinfo->get()->email;
+    try {
+      $oauth2 = new Google_Service_Oauth2($this->client);
+      $email = $oauth2->userinfo->get()->email;
+    } catch (Exception $e) {
+      return FALSE;
+    }
 
     if (empty($email)) {
       return FALSE;
