@@ -8,6 +8,15 @@ class Post_model extends CI_Model {
     $this->db->query("SET time_zone='+0:00'");
   }
 
+  function add_tag($post_id, $tag_id) {
+    $data = array(
+      'post_id' => $post_id,
+      'tag_id' => $tag_id
+    );
+
+    $this->db->insert('tags_posts', $data);
+  }
+
   function create($user_id, $text) {
     $data = array(
       'user_id' => $user_id,

@@ -5,7 +5,10 @@ class Posts extends REST_Controller {
 
   function __construct() {
     parent::__construct();
-    $this->load->model('post_model');
+    $this->load->model(array(
+      'post_model',
+      'tag_model'
+    ));
   }
 
   function _get_user() {
@@ -20,16 +23,26 @@ class Posts extends REST_Controller {
   }
 
   function index_post() {
-    // get input text
-    $input = $this->post();
-    $text = $input['text'];
-
     // get user
     if (!$user = $this->_get_user()) {
       return $this->response(array('error' => 'Not authenticated.'));
     }
 
+    // get input text
+    $input = $this->post();
+    $text = $input['text'];
+
+    // storing the post
     $post = $this->post_model->create($user->id, $text);
+
+    // extracting all tags and storing
+    // them in a many to many relationship
+    preg_match_all("/\S*#(?:\[[^\]]+\]|\S+)/", $text, $tags);
+    foreach ($tags[0] as $tag) {
+      $tag = trim(strtolower($tag));
+      $tag = $this->tag_model->get_or_create($tag);
+      $this->post_model->add_tag($post->id, $tag->id);
+    }
 
     return $this->response($post);
   }
