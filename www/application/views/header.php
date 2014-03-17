@@ -14,5 +14,6 @@
   <script src="<?php echo base_url('bower_components/jquery/dist/jquery.js'); ?>"></script>
   <script src="<?php echo base_url('bower_components/jquery-ui/ui/jquery-ui.js'); ?>"></script>
   <script src="<?php echo base_url('bower_components/twitter/dist/js/bootstrap.js'); ?>"></script>
+  <script src="/bower_components/requirejs/require.js"></script>
 </head>
 <body>
