@@ -48,6 +48,39 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+if (isset($_SERVER['DATABASE_URL'])) {
+  $active_group = 'heroku';
+
+  $db['heroku']['dbprefix'] = '';
+  $db['heroku']['pconnect'] = TRUE;
+  $db['heroku']['db_debug'] = TRUE;
+  $db['heroku']['cache_on'] = FALSE;
+  $db['heroku']['cachedir'] = '';
+  $db['heroku']['char_set'] = 'utf8';
+  $db['heroku']['dbcollat'] = 'utf8_general_ci';
+  $db['heroku']['swap_pre'] = '';
+  $db['heroku']['autoinit'] = TRUE;
+  $db['heroku']['stricton'] = FALSE;
+
+  list($driver, $username, $password, $hostname, $port, $database) = preg_split('/[:\/@]/', $_SERVER['DATABASE_URL'], 6, PREG_SPLIT_NO_EMPTY);
+
+  if ($driver == "postgres") {
+    $driver = "postgre";
+  }
+
+  $db['heroku']['hostname'] = $hostname;
+  $db['heroku']['port'] = $port;
+  $db['heroku']['username'] = $username;
+  $db['heroku']['password'] = $password;
+  $db['heroku']['database'] = $database;
+
+  if ($driver == "postgres") {
+    $db['heroku']['dbdriver'] = "postgre";
+  } else {
+    $db['heroku']['dbdriver'] = $driver;
+  }
+}
+
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';

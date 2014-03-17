@@ -22,5 +22,4 @@ if (isset($_SERVER['google_client_secret'])) {
 
 if (isset($_SERVER['google_redirect_uri'])) {
   $config['google_redirect_uri'] = $_SERVER['google_redirect_uri'];
-
 }
