@@ -1,11 +1,14 @@
 define([
-  'backbone'
+  'backbone',
+  'models/post'
 ], function(
-  Backbone
+  Backbone,
+  PostModel
 ) {
 
   var PostsCollection = Backbone.Collection.extend({
-
+    url: "/index.php/api/posts",
+    model: PostModel
   });
 
   return PostsCollection;

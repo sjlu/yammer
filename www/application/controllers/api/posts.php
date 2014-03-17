@@ -3,6 +3,11 @@ require(APPPATH . 'libraries/REST_Controller.php');
 
 class Posts extends REST_Controller {
 
+  function __construct() {
+    parent::__construct();
+    $this->load->model('post_model');
+  }
+
   function _get_user() {
     $this->load->library('google_auth');
     $this->load->model('user_model');
@@ -24,10 +29,16 @@ class Posts extends REST_Controller {
       return $this->response(array('error' => 'Not authenticated.'));
     }
 
-    $this->load->model('post_model');
     $post = $this->post_model->create($user->id, $text);
 
     return $this->response($post);
+  }
+
+  function index_get() {
+
+    $posts = $this->post_model->get_all();
+    return $this->response($posts);
+
   }
 
 }

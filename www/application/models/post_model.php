@@ -19,7 +19,14 @@ class Post_model extends CI_Model {
   }
 
   function get($id) {
-    $this->db->where('id', $id);
+    $this->db->select(array(
+        'posts.id',
+        'users.email',
+        'posts.text',
+        'posts.timestamp'
+      ))
+      ->where('posts.id', $id)
+      ->join('users', 'posts.user_id = users.id');
 
     $query = $this->db->get('posts');
 
@@ -28,6 +35,25 @@ class Post_model extends CI_Model {
     }
 
     return $query->row();
+  }
+
+  function get_all() {
+    $this->db->select(array(
+        'posts.id',
+        'users.email',
+        'posts.text',
+        'posts.timestamp'
+      ))
+      ->join('users', 'posts.user_id = users.id')
+      ->order_by("posts.id", "desc");
+
+    $query = $this->db->get('posts');
+
+    if (!$query->num_rows()) {
+      return false;
+    }
+
+    return $query->result();
   }
 
 }

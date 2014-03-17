@@ -5,7 +5,7 @@ define([
 ) {
 
   var PostModel = Backbone.Model.extend({
-    "url": "/index.php/api/posts"
+    urlRoot: "/index.php/api/posts"
   });
 
   return PostModel;
