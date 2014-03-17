@@ -12,7 +12,7 @@ class Posts extends REST_Controller {
   }
 
   function _get_user() {
-    $this->load->library('google_auth');
+    $this->load->library('Google_Auth');
     $this->load->model('user_model');
 
     if (!$email = $this->google_auth->get_session()) {

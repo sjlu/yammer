@@ -4,7 +4,7 @@ class Authenticate extends MY_Controller {
 
   function __construct() {
     parent::__construct();
-    $this->load->library('google_auth');
+    $this->load->library('Google_Auth');
   }
 
   function index() {
